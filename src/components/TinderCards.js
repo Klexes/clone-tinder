@@ -5,13 +5,16 @@ import './TinderCard.css'
 
 function TinderCards() {
     const [people, setPeople] = useState([])
-    console.log(people)
+    
     useEffect(() => {
-        database
+    const unsubscribe = database
           .collection('people')
           .onSnapshot(snapshot => 
             setPeople(snapshot.docs.map(doc => doc.data()))
         )
+        return  () => {
+            unsubscribe()
+        }
     }, [])
 
     return (
